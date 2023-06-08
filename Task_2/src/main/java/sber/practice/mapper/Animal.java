@@ -1,3 +1,5 @@
+package sber.practice.mapper;
+
 import java.util.Map;
 
 public class Animal {

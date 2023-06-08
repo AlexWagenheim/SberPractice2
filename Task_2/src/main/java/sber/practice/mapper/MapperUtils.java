@@ -1,26 +1,28 @@
+package sber.practice.mapper;
+
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Reflection {
+public class MapperUtils {
 
-    private static Animal mapToProductDto(Pet cat) throws NoSuchFieldException, IllegalAccessException {
+    public static Animal mapToProductDto(Pet pet) throws NoSuchFieldException, IllegalAccessException {
         Class<Pet> petClass = Pet.class;
 
         Field nameField = petClass.getDeclaredField("name");
         nameField.setAccessible(true);
-        String title = (String) nameField.get(cat);
+        String title = (String) nameField.get(pet);
 
         Field statusField = petClass.getDeclaredField("status");
         statusField.setAccessible(true);
-        boolean isAvailable = statusField.get(cat).equals(Status.AVAILABLE);
-        boolean isSold = statusField.get(cat).equals(Status.SOLD);
+        boolean isAvailable = statusField.get(pet).equals(Status.AVAILABLE);
+        boolean isSold = statusField.get(pet).equals(Status.SOLD);
 
         Field photoListField = petClass.getDeclaredField("photosList");
         photoListField.setAccessible(true);
         Map<String, String> photosMap = new HashMap<>();
-        for (Photo photo: (List<Photo>) photoListField.get(cat)) {
+        for (Photo photo: (List<Photo>) photoListField.get(pet)) {
             photosMap.put(photo.getName(), photo.getURL());
         }
 
@@ -44,17 +46,5 @@ public class Reflection {
         photosMapField.set(animal, photosMap);
 
         return animal;
-    }
-
-    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
-        Pet cat = new Pet("Барсик", Status.AVAILABLE,
-                List.of(new Photo("Барсик с цветочком",
-                        "https://placekitten.com/200/300"),
-                        new Photo("Барсик на ручках",
-                        "https://placekitten.com/500/605")
-                ));
-
-        Animal animalCat = mapToProductDto(cat);
-        System.out.println(animalCat);
     }
 }

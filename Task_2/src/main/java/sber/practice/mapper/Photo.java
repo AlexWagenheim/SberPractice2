@@ -1,3 +1,5 @@
+package sber.practice.mapper;
+
 public class Photo {
     private String name;
     private String URL;

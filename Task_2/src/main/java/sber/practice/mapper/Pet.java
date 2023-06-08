@@ -1,3 +1,5 @@
+package sber.practice.mapper;
+
 import java.util.List;
 
 public class Pet {
