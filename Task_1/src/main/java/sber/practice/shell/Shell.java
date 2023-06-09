@@ -1,3 +1,5 @@
+package sber.practice.shell;
+
 import java.rmi.NotBoundException;
 import java.util.Arrays;
 import java.util.Scanner;

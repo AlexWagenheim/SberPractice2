@@ -1,3 +1,5 @@
+package sber.practice.shell;
+
 public interface Command {
 
     String getName();

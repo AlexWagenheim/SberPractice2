@@ -1,8 +1,10 @@
+package sber.practice.shell;
+
 import java.util.Locale;
 
-public class PwdCommand implements Command{
+public class QuitCommand implements Command{
 
-    private final String name = "pwd";
+    private final String name = "quit";
 
     @Override
     public String getName() {
@@ -18,15 +20,15 @@ public class PwdCommand implements Command{
                 case ("/help"):
                     return help();
             }
-            throw new IllegalArgumentException("Недопустимый аргумент. Введите 'pwd /help' для получения справки");
+            throw new IllegalArgumentException("Недопустимый аргумент. Введите 'quit /help' для получения справки");
         } else {
-            return ShellBase.getInstance().getCurrentDir();
+            System.exit(0);
+            return null;
         }
     }
 
     @Override
     public String help() {
-        return "Команда 'pwd' - выводит текущую рабочую директорию.\n" +
-                "   /help - вывести спраку по команде 'pwd'";
+        return "Команда 'quit' - завершает работу приложения.";
     }
 }

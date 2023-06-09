@@ -1,3 +1,5 @@
+package sber.practice.shell;
+
 import java.util.Locale;
 
 public class DateCommand implements Command{

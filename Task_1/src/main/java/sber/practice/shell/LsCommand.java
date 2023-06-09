@@ -1,5 +1,6 @@
+package sber.practice.shell;
+
 import java.io.File;
-import java.util.Collection;
 import java.util.Locale;
 
 public class LsCommand implements Command{
