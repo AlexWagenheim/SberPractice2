@@ -11,6 +11,7 @@
     <modules>
         <module>Task_1</module>
         <module>Task_2</module>
+        <module>Task_3</module>
     </modules>
 
     <properties>
