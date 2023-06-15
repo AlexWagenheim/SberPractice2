@@ -1,4 +1,4 @@
-package sber.practice.wordcounter.contract;
+package sber.practice.wordcounter.service;
 
 import java.io.IOException;
 import java.util.Map;

@@ -1,10 +1,10 @@
-package sber.practice.wordcounter.implementation;
+package sber.practice.wordcounter.service.implementation;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import sber.practice.wordcounter.AppConfig;
-import sber.practice.wordcounter.contract.Analyzer;
-import sber.practice.wordcounter.contract.Parser;
+import sber.practice.wordcounter.service.Analyzer;
+import sber.practice.wordcounter.service.Parser;
 
 import java.io.IOException;
 import java.util.HashMap;

@@ -1,13 +1,13 @@
-package sber.practice.wordcounter.implementation;
+package sber.practice.wordcounter.service.implementation;
 
-import sber.practice.wordcounter.contract.Parser;
+import sber.practice.wordcounter.service.Parser;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-public class ParserTXT implements Parser {
+public class TextParserImpl implements Parser {
 
     private List<String> file;
     private int position;

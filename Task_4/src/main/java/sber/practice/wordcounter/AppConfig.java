@@ -1,21 +1,20 @@
 package sber.practice.wordcounter;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import sber.practice.wordcounter.contract.Analyzer;
-import sber.practice.wordcounter.contract.Parser;
-import sber.practice.wordcounter.contract.ReportBuilder;
-import sber.practice.wordcounter.implementation.AnalyzerImpl;
-import sber.practice.wordcounter.implementation.ParserTXT;
-import sber.practice.wordcounter.implementation.ReportBuilderTXT;
+import sber.practice.wordcounter.service.Analyzer;
+import sber.practice.wordcounter.service.Parser;
+import sber.practice.wordcounter.service.ReportBuilder;
+import sber.practice.wordcounter.service.implementation.AnalyzerImpl;
+import sber.practice.wordcounter.service.implementation.TextParserImpl;
+import sber.practice.wordcounter.service.implementation.TextReportBuilderImpl;
 
 @Configuration
 public class AppConfig {
 
     @Bean
     public Parser parser() {
-        return new ParserTXT();
+        return new TextParserImpl();
     }
 
     @Bean
@@ -25,6 +24,6 @@ public class AppConfig {
 
     @Bean
     public ReportBuilder reportBuilder() {
-        return new ReportBuilderTXT();
+        return new TextReportBuilderImpl();
     }
 }

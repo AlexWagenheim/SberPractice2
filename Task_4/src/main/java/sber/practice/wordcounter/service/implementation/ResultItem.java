@@ -1,4 +1,4 @@
-package sber.practice.wordcounter;
+package sber.practice.wordcounter.service.implementation;
 
 public class ResultItem {
     private String key;

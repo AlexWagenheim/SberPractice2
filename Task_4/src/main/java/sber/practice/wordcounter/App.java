@@ -1,14 +1,13 @@
 package sber.practice.wordcounter;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import sber.practice.wordcounter.contract.ReportBuilder;
-import sber.practice.wordcounter.implementation.ReportBuilderTXT;
+import sber.practice.wordcounter.service.ReportBuilder;
 
 import java.io.IOException;
 
 public class App {
+
     public static void main(String[] args) {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
 
