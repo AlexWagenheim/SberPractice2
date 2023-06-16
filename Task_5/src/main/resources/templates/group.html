@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${group.name}"></title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}"/>
+</head>
+<body>
+    <div>
+        <article class="leaderboard">
+            <header>
+                <img th:src="@{/images/music_band_white.png}" alt="Music" class="leaderboard__icon"><h1 class="leaderboard__title"><span class="leaderboard__title--top" th:text="${group.name}"></span><span class="leaderboard__title--bottom">Музыкальная группа</span></h1>
+            </header>
+
+            <main class="leaderboard__profiles">
+                <div class="empty_list" th:if="${#lists.isEmpty(group.albumEntityList)}">
+                    Список пуст
+                </div>
+                <article class="leaderboard__profile" th:each="album: ${group.albumEntityList}" th:onclick="location.href='/group/[[${group.id}]]/album/[[${album.id}]]';">
+                    <img th:src="@{/images/music_album.png}" th:alt="${album.name}" class="leaderboard__picture">
+                    <span class="leaderboard__name" th:text="${album.name}"></span>
+                    <span class="leaderboard__value"><span>треки: </span><b class="leaderboard__value" th:text="${#lists.size(album.trackEntityList)}"></b></span>
+                </article>
+            </main>
+        </article>
+    </div>
+</body>
+</html>

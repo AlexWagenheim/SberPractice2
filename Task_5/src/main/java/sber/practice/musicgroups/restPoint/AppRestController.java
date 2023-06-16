@@ -14,14 +14,14 @@ import sber.practice.musicgroups.domain.TrackEntity;
 import java.util.List;
 
 @RestController
-@RequestMapping(produces = "application/json")
+@RequestMapping(path = "/api",produces = "application/json")
 @Validated
-public class AppController {
+public class AppRestController {
 
     private CatalogService catalogService;
 
     @Autowired
-    public AppController(CatalogService catalogService) {
+    public AppRestController(CatalogService catalogService) {
         this.catalogService = catalogService;
     }
 
