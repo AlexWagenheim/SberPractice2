@@ -1,48 +1,32 @@
-package sber.practice.musicgroups.domain;
+package sber.practice.musicgroups.domain.requestEntity;
 
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public class TrackEntity {
-    @NotNull
-    private long id;
+public class TrackRq {
     @NotNull
     @NotEmpty(message = "Название не может быть пустым")
     private String name;
     @NotNull
     @Min(value = 1, message = "Длительность трека не может быть меньше или равна нулю")
-    private long duration;
-
-    public TrackEntity() {}
-
-    public TrackEntity(long id, String name, long duration) {
-        this.id = id;
-        this.name = name;
-        this.duration = duration;
-    }
-
-    public long getId() {
-        return id;
-    }
+    @Digits(integer=10, fraction=0, message = "Длительность должна задаваться числом")
+    private String duration;
 
     public String getName() {
         return name;
-    }
-
-    public long getDuration() {
-        return duration;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setDuration(long duration) {
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 }

@@ -192,4 +192,94 @@ public class CatalogService {
             throw new IllegalArgumentException(String.format("Группы (id = %d) не существует", groupId));
         }
     }
+
+    /**
+     * возвращает следующий доступный <b>id</b> для назначения {@link GroupEntity}
+     */
+    public long getNextGroupId() {
+        if (groupEntityList.isEmpty()) {
+            return 1;
+        } else {
+            return groupEntityList.stream().mapToLong(GroupEntity::getId).max().getAsLong() + 1;
+        }
+    }
+
+    /**
+     * возвращает следующий доступный <b>id</b> для назначения {@link AlbumEntity}
+     * @param groupId - id музыкальной группы
+     */
+    public long getNextAlbumId(long groupId) throws IllegalArgumentException{
+        return getGroupById(groupId).getAlbumEntityList().stream().mapToLong(AlbumEntity::getId).max().getAsLong() + 1;
+    }
+
+    /**
+     * возвращает следующий доступный <b>id</b> для назначения {@link TrackEntity}
+     * @param groupId - id музыкальной группы
+     * @param albumId - id альбома
+     */
+    public long getNextTrackId(long groupId, long albumId) throws IllegalArgumentException{
+        return getAlbumById(groupId, albumId).getTrackEntityList().stream().mapToLong(TrackEntity::getId).max().getAsLong() + 1;
+    }
+
+    /**
+     * удаление <b>музыкальной группы</b> {@link GroupEntity} по <b>id группы</b>
+     * @param groupId - id музыкальной группы
+     */
+    public boolean deleteGroupById(long groupId) {
+        Optional<GroupEntity> optionalGroup = groupEntityList.stream().filter(item -> item.getId() == groupId).findAny();
+        if (optionalGroup.isPresent()) {
+            return groupEntityList.remove(optionalGroup.get());
+        } else {
+            throw new IllegalArgumentException(String.format("Группы (id = %d) не существует", groupId));
+        }
+    }
+
+    /**
+     * удаление <b>альбома {@link AlbumEntity}</b> музыкальной группы {@link GroupEntity} по <b>id группы</b> и <b>id альбома</b>
+     * @param groupId - id музыкальной группы
+     * @param albumId - id альбома
+     */
+    public boolean deleteAlbumById(long groupId, long albumId) {
+        Optional<GroupEntity> optionalGroup = groupEntityList.stream().filter(item -> item.getId() == groupId).findAny();
+        if (optionalGroup.isPresent()) {
+            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntityList().stream().filter(
+                    item -> item.getId() == albumId).findAny();
+            if (optionalAlbum.isPresent()) {
+                return optionalGroup.get().getAlbumEntityList().remove(optionalAlbum.get());
+            } else {
+                throw new IllegalArgumentException(String.format("Группы (id = %d) не существует", groupId));
+            }
+
+        } else {
+            throw new IllegalArgumentException(String.format("У группы (id = %d) не существует альбома(id = %d)", groupId, albumId));
+        }
+    }
+
+    /**
+     * удаление <b>трека {@link TrackEntity}</b> в альбоме {@link AlbumEntity} музыкальной группы {@link GroupEntity} по <b>id группы</b>, <b>id альбома</b> и <b>id трека</b>
+     * @param groupId - id музыкальной группы
+     * @param albumId - id альбома
+     * @param trackId - id трека
+     */
+    public boolean deleterackById(long groupId, long albumId, long trackId) {
+        Optional<GroupEntity> optionalGroup = groupEntityList.stream().filter(item -> item.getId() == groupId).findAny();
+        if (optionalGroup.isPresent()) {
+            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntityList().
+                    stream().filter(item -> item.getId() == albumId).findAny();
+            if (optionalAlbum.isPresent()) {
+                Optional<TrackEntity> optionalTrack = optionalAlbum.get().getTrackEntityList().
+                        stream().filter(item -> item.getId() == trackId).findAny();
+                if (optionalTrack.isPresent()) {
+                    return optionalAlbum.get().getTrackEntityList().remove(optionalTrack.get());
+                } else {
+                    throw new IllegalArgumentException(String.format(
+                            "У группы (id = %d) и альбома(id = %d) не существует трека(id = %d)", groupId, albumId, trackId));
+                }
+            } else {
+                throw new IllegalArgumentException(String.format("У группы (id = %d) не существует альбома(id = %d)", groupId, albumId));
+            }
+        } else {
+            throw new IllegalArgumentException(String.format("Группы (id = %d) не существует", groupId));
+        }
+    }
 }

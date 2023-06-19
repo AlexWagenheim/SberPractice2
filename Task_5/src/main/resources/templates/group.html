@@ -5,11 +5,14 @@
     <meta charset="UTF-8">
     <title th:text="${group.name}"></title>
     <link rel="stylesheet" th:href="@{/styles/style.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/fineButton.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/deleteFineButton.css}"/>
 </head>
 <body>
     <div>
         <article class="leaderboard">
             <header>
+                <img class="back_button" th:src="@{/images/back_white.png}" alt="Back" th:onclick="location.href='/group'">
                 <img th:src="@{/images/music_band_white.png}" alt="Music" class="leaderboard__icon"><h1 class="leaderboard__title"><span class="leaderboard__title--top" th:text="${group.name}"></span><span class="leaderboard__title--bottom">Музыкальная группа</span></h1>
             </header>
 
@@ -17,11 +20,25 @@
                 <div class="empty_list" th:if="${#lists.isEmpty(group.albumEntityList)}">
                     Список пуст
                 </div>
-                <article class="leaderboard__profile" th:each="album: ${group.albumEntityList}" th:onclick="location.href='/group/[[${group.id}]]/album/[[${album.id}]]';">
+                <article class="leaderboard__profile" th:each="album: ${group.albumEntityList}">
                     <img th:src="@{/images/music_album.png}" th:alt="${album.name}" class="leaderboard__picture">
-                    <span class="leaderboard__name" th:text="${album.name}"></span>
+                    <span class="leaderboard__name" th:text="${album.name}" th:onclick="location.href='/group/[[${group.id}]]/album/[[${album.id}]]';"></span>
                     <span class="leaderboard__value"><span>треки: </span><b class="leaderboard__value" th:text="${#lists.size(album.trackEntityList)}"></b></span>
+                    <div class="delete_container">
+                        <button class="delete_button" th:onclick="location.href='/group/[[${group.id}]]'; fetch('/group/[[${group.id}]]/album/[[${album.id}]]', {method: 'DELETE'})">
+                            <div class="delete_button__line"></div>
+                            <div class="delete_button__line"></div>
+                            <span class="delete_button__text">Удалить</span>
+                        </button>
+                    </div>
                 </article>
+                <div class="container">
+                    <button class="button" th:onclick="location.href='/group/[[${group.id}]]/album/add';">
+                        <div class="button__line"></div>
+                        <div class="button__line"></div>
+                        <span class="button__text">Добавить</span>
+                    </button>
+                </div>
             </main>
         </article>
     </div>

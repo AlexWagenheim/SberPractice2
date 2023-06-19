@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить новую музыкальную группу</title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/createFormStyle.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/fineButton.css}"/>
+</head>
+<body>
+<article class="leaderboard">
+    <header>
+        <img class="back_button" th:src="@{/images/back_white.png}" alt="Back" th:onclick="location.href='/group/[[${groupId}]]'">
+        <img th:src="@{/images/music_album_white.png}" alt="Music" class="leaderboard__icon"><h1 class="leaderboard__title"><span class="leaderboard__title--top">Добавить альбом</span><span class="leaderboard__title--bottom"></span></h1>
+    </header>
+    <main class="leaderboard__profiles">
+        <form th:action="@{/group/{groupId}/album/add(groupId=${groupId})}" method="post" th:object="${album}">
+            <table>
+                <tbody>
+                <tr>
+                    <td>
+                        <div class="input-field">
+                            <input type="input" name="name" id="name">
+                            <label for="name">Название</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="error-message">
+                            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="input-field">
+                            <input type="input" name="year" id="year">
+                            <label for="year">Год выпуска</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="error-message">
+                            <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="container">
+                <button class="button">
+                    <div class="button__line"></div>
+                    <div class="button__line"></div>
+                    <span class="button__text">Добавить</span>
+                </button>
+            </div>
+        </form>
+    </main>
+</article>
+</body>
+</html>

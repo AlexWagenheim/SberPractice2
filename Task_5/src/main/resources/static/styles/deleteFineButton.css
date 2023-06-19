@@ -1,0 +1,119 @@
+:root{
+    /* color type A */
+/*     --line_color : #555555 ;
+    --back_color : #FFECF6  ; */
+
+    /* color type B */
+/*     --line_color : #1b1919 ;
+    --back_color : #E9ECFF  ; */
+
+    /* color type C */
+/*     --line_color : #00135C ;
+    --back_color : #DEFFFA  ; */
+
+    /* color type D */
+/*    --line_color : #fbb868 ;
+    --back_color : #f6f6f7  ; */
+
+    /* color type E */
+    --line_color : #3659db ;
+    --back_color : #f6f6f7  ;
+}
+.delete_button{
+    position : relative ;
+    z-index : 0 ;
+    width : 150px ;
+    height : 30px ;
+    text-decoration : none ;
+    font-size : 14px ;
+    font-weight : bold ;
+    color : var(--line_color) ;
+    letter-spacing : 2px ;
+    transition : all .3s ease ;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+.delete_button__text{
+    display : flex ;
+    justify-content : center ;
+    align-items : center ;
+    width : 100% ;
+    height : 100% ;
+}
+.delete_button::before,
+.delete_button::after,
+.delete_button__text::before,
+.delete_button__text::after{
+    content : '' ;
+    position : absolute ;
+    height : 3px ;
+    border-radius : 2px ;
+    background : var(--line_color) ;
+    transition : all .5s ease ;
+}
+.delete_button::before{
+    top : 0 ;
+    left : 54px ;
+    width : calc( 100% - 56px * 2 - 16px ) ;
+}
+.delete_button::after{
+    top : 0 ;
+    right : 54px ;
+    width : 8px ;
+}
+.delete_button__text::before{
+    bottom : 0 ;
+    right : 54px ;
+    width : calc( 100% - 56px * 2 - 16px ) ;
+}
+.delete_button__text::after{
+    bottom : 0 ;
+    left : 54px ;
+    width : 8px ;
+}
+.delete_button__line{
+    position : absolute ;
+    top : 0 ;
+    width : 56px ;
+    height : 100% ;
+    overflow : hidden ;
+}
+.delete_button__line::before{
+    content : '' ;
+    position : absolute ;
+    top : 0 ;
+    width : 150% ;
+    height : 100% ;
+    box-sizing : border-box ;
+    border-radius : 300px ;
+    border : solid 3px var(--line_color) ;
+}
+.delete_button__line:nth-child(1),
+.delete_button__line:nth-child(1)::before{
+    left : 0 ;
+}
+.delete_button__line:nth-child(2),
+.delete_button__line:nth-child(2)::before{
+    right : 0 ;
+}
+.delete_button:hover{
+    letter-spacing : 6px ;
+}
+.delete_button:hover::before,
+.delete_button:hover .delete_button__text::before{
+    width : 8px ;
+}
+.delete_button:hover::after,
+.delete_button:hover .delete_button__text::after{
+    width : calc( 100% - 56px * 2 - 16px ) ;
+}
+.delete_container{
+    width : 100% ;
+    height : 50px ;
+    display : flex ;
+    flex-direction : column ;
+    justify-content : center ;
+    align-items : end ;
+    margin-left: 10px;
+}

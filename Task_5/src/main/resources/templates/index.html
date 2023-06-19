@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <title>Музыкальные группы</title>
     <link rel="stylesheet" th:href="@{/styles/style.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/fineButton.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/deleteFineButton.css}"/>
 </head>
 <body>
     <div>
@@ -17,11 +19,25 @@
                 <div class="empty_list" th:if="${#lists.isEmpty(groupList)}">
                     Список пуст
                 </div>
-                <article class="leaderboard__profile" th:each="group: ${groupList}" th:onclick="location.href='/group/[[${group.id}]]';">
+                <article class="leaderboard__profile" th:each="group: ${groupList}" >
                     <img th:src="@{/images/music_band.png}" th:alt="${group.name}" class="leaderboard__picture">
-                    <span class="leaderboard__name" th:text="${group.name}"></span>
+                    <span class="leaderboard__name" th:text="${group.name}" th:onclick="location.href='/group/[[${group.id}]]';"></span>
                     <span class="leaderboard__value"><span>альбомы: </span><b class="leaderboard__value" th:text="${#lists.size(group.albumEntityList)}"></b></span>
+                        <div class="delete_container">
+                            <button class="delete_button" th:onclick="location.href='/'; fetch('/group/[[${group.id}]]', {method: 'DELETE'})">
+                                <div class="delete_button__line"></div>
+                                <div class="delete_button__line"></div>
+                                <span class="delete_button__text">Удалить</span>
+                            </button>
+                        </div>
                 </article>
+                <div class="container">
+                    <button class="button" th:onclick="location.href='/group/add';">
+                        <div class="button__line"></div>
+                        <div class="button__line"></div>
+                        <span class="button__text">Добавить</span>
+                    </button>
+                </div>
             </main>
         </article>
     </div>

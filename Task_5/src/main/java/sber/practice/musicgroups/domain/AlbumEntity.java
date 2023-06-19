@@ -1,5 +1,6 @@
 package sber.practice.musicgroups.domain;
 
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
@@ -8,6 +9,7 @@ public class AlbumEntity {
     @NotNull
     private long id;
     @NotNull
+    @NotEmpty(message = "Название не может быть пустым")
     private String name;
     @NotNull
     private int year;
