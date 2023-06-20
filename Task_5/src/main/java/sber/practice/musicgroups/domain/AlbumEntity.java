@@ -1,27 +1,41 @@
 package sber.practice.musicgroups.domain;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class AlbumEntity {
-    @NotNull
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @NotNull
     @NotEmpty(message = "Название не может быть пустым")
     private String name;
+
     @NotNull
-    private int year;
+    private int releaseYear;
+
     @NotNull
-    private List<TrackEntity> trackEntityList;
+    @OneToMany
+    private List<TrackEntity> trackEntityList = new ArrayList<>();
 
     public AlbumEntity() {}
 
-    public AlbumEntity(long id, String name, int year, List<TrackEntity> trackEntityList) {
+    public AlbumEntity(long id, String name, int releaseYear, List<TrackEntity> trackEntityList) {
         this.id = id;
         this.name = name;
-        this.year = year;
+        this.releaseYear = releaseYear;
+        this.trackEntityList = trackEntityList;
+    }
+
+    public AlbumEntity(String name, int releaseYear, List<TrackEntity> trackEntityList) {
+        this.name = name;
+        this.releaseYear = releaseYear;
         this.trackEntityList = trackEntityList;
     }
 
@@ -33,8 +47,8 @@ public class AlbumEntity {
         return name;
     }
 
-    public int getYear() {
-        return year;
+    public int getReleaseYear() {
+        return releaseYear;
     }
 
     public List<TrackEntity> getTrackEntityList() {
@@ -49,8 +63,8 @@ public class AlbumEntity {
         this.name = name;
     }
 
-    public void setYear(int year) {
-        this.year = year;
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
     }
 
     public void setTrackEntityList(List<TrackEntity> trackEntityList) {

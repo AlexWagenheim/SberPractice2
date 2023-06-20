@@ -13,7 +13,7 @@
         <article class="leaderboard">
             <header>
                 <img class="back_button" th:src="@{/images/back_white.png}" alt="Back" th:onclick="location.href='/group/[[${groupId}]]'">
-                <img th:src="@{/images/music_album_white.png}" alt="Music" class="leaderboard__icon"><h1 class="leaderboard__title"><span class="leaderboard__title--top" th:text="${album.name}"></span><span class="leaderboard__title--bottom" th:text="${album.year}"></span></h1>
+                <img th:src="@{/images/music_album_white.png}" alt="Music" class="leaderboard__icon"><h1 class="leaderboard__title"><span class="leaderboard__title--top" th:text="${album.name}"></span><span class="leaderboard__title--bottom" th:text="${album.releaseYear}"></span></h1>
             </header>
 
             <main class="leaderboard__profiles">
@@ -25,11 +25,13 @@
                     <span class="leaderboard__name" th:text="${track.name}"></span>
                     <span class="leaderboard__value"><b class="leaderboard__value" th:text="${track.duration/60} + ':' + ${track.duration%60}"></b></span>
                     <div class="delete_container">
-                        <button class="delete_button" th:onclick="location.href='/group/[[${groupId}]]/album/[[${albumId}]]'; fetch('/group/[[${groupId}]]/album/[[${albumId}]]/track/[[${track.id}]]', {method: 'DELETE'})">
-                            <div class="delete_button__line"></div>
-                            <div class="delete_button__line"></div>
-                            <span class="delete_button__text">Удалить</span>
-                        </button>
+                        <form th:action="@{/group/{groupId}/album/{albumId}/track/{trackId}/delete(groupId=${groupId}, albumId=${albumId}, trackId=${track.id})}" method="get">
+                            <button class="delete_button">
+                                <div class="delete_button__line"></div>
+                                <div class="delete_button__line"></div>
+                                <span class="delete_button__text">Удалить</span>
+                            </button>
+                        </form>
                     </div>
                 </article>
                 <div class="container">

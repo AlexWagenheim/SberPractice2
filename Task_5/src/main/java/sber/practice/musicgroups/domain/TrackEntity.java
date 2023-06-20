@@ -1,15 +1,20 @@
 package sber.practice.musicgroups.domain;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
+@Entity
 public class TrackEntity {
-    @NotNull
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @NotNull
     @NotEmpty(message = "Название не может быть пустым")
     private String name;
+
     @NotNull
     @Min(value = 1, message = "Длительность трека не может быть меньше или равна нулю")
     private long duration;
@@ -18,6 +23,11 @@ public class TrackEntity {
 
     public TrackEntity(long id, String name, long duration) {
         this.id = id;
+        this.name = name;
+        this.duration = duration;
+    }
+
+    public TrackEntity(String name, long duration) {
         this.name = name;
         this.duration = duration;
     }

@@ -24,11 +24,13 @@
                     <span class="leaderboard__name" th:text="${group.name}" th:onclick="location.href='/group/[[${group.id}]]';"></span>
                     <span class="leaderboard__value"><span>альбомы: </span><b class="leaderboard__value" th:text="${#lists.size(group.albumEntityList)}"></b></span>
                         <div class="delete_container">
-                            <button class="delete_button" th:onclick="location.href='/'; fetch('/group/[[${group.id}]]', {method: 'DELETE'})">
-                                <div class="delete_button__line"></div>
-                                <div class="delete_button__line"></div>
-                                <span class="delete_button__text">Удалить</span>
-                            </button>
+                            <form th:action="@{/group/{groupId}/delete(groupId=${group.id})}" method="get">
+                                <button class="delete_button">
+                                    <div class="delete_button__line"></div>
+                                    <div class="delete_button__line"></div>
+                                    <span class="delete_button__text">Удалить</span>
+                                </button>
+                            </form>
                         </div>
                 </article>
                 <div class="container">

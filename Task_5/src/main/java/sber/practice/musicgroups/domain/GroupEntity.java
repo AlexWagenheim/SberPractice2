@@ -1,17 +1,21 @@
 package sber.practice.musicgroups.domain;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
+@Entity
 public class GroupEntity {
-    @NotNull
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NotNull
     @NotEmpty(message = "Название не может быть пустым")
     private String name;
     @NotNull
+    @OneToMany
     private List<AlbumEntity> albumEntityList;
 
     public GroupEntity() {}

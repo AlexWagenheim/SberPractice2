@@ -261,7 +261,7 @@ public class CatalogService {
      * @param albumId - id альбома
      * @param trackId - id трека
      */
-    public boolean deleterackById(long groupId, long albumId, long trackId) {
+    public boolean deleteTrackById(long groupId, long albumId, long trackId) {
         Optional<GroupEntity> optionalGroup = groupEntityList.stream().filter(item -> item.getId() == groupId).findAny();
         if (optionalGroup.isPresent()) {
             Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntityList().
