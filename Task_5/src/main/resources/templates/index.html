@@ -22,7 +22,7 @@
                 <article class="leaderboard__profile" th:each="group: ${groupList}" >
                     <img th:src="@{/images/music_band.png}" th:alt="${group.name}" class="leaderboard__picture">
                     <span class="leaderboard__name" th:text="${group.name}" th:onclick="location.href='/group/[[${group.id}]]';"></span>
-                    <span class="leaderboard__value"><span>альбомы: </span><b class="leaderboard__value" th:text="${#lists.size(group.albumEntityList)}"></b></span>
+                    <span class="leaderboard__value"><span>альбомы: </span><b class="leaderboard__value" th:text="${#lists.size(group.albumEntitySet)}"></b></span>
                         <div class="delete_container">
                             <form th:action="@{/group/{groupId}/delete(groupId=${group.id})}" method="get">
                                 <button class="delete_button">

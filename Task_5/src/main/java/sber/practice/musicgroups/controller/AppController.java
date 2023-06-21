@@ -1,19 +1,11 @@
 package sber.practice.musicgroups.controller;
 
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.OptimisticLockException;
-import jakarta.persistence.PersistenceException;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import sber.practice.musicgroups.CatalogService;
 import sber.practice.musicgroups.domain.AlbumEntity;
 import sber.practice.musicgroups.domain.GroupEntity;
 import sber.practice.musicgroups.domain.TrackEntity;
@@ -25,18 +17,12 @@ import sber.practice.musicgroups.repository.GroupEntityRepository;
 import sber.practice.musicgroups.repository.TrackEntityRepository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 public class AppController {
-
-//    private CatalogService catalogService;
-//
-//    @Autowired
-//    public AppController(CatalogService catalogService) {
-//        this.catalogService = catalogService;
-//    }
 
     private GroupEntityRepository groupRepository;
     private AlbumEntityRepository albumRepository;
@@ -104,7 +90,7 @@ public class AppController {
                 return "createEntityPage/createGroup";
             } else {
                 groupRepository.save(new GroupEntity(0,
-                        groupRq.getName(), new ArrayList<AlbumEntity>()));
+                        groupRq.getName(), new HashSet<>()));
                 return "redirect:/group";
             }
         } catch (Exception e) {
@@ -133,10 +119,8 @@ public class AppController {
             } else {
                 Optional<GroupEntity> optionalGroup = groupRepository.findById(groupId);
                 if (optionalGroup.isPresent()) {
-                    AlbumEntity album = albumRepository.save(
-                            new AlbumEntity(albumRq.getName(), Integer.parseInt(albumRq.getYear()),
-                                    new ArrayList<TrackEntity>()));
-                    optionalGroup.get().getAlbumEntityList().add(album);
+                    optionalGroup.get().addAlbum(new AlbumEntity(albumRq.getName(), Integer.parseInt(albumRq.getYear()),
+                                    new HashSet<>()));
                     groupRepository.save(optionalGroup.get());
                     return String.format("redirect:/group/%d", groupId);
                 } else {
@@ -172,9 +156,7 @@ public class AppController {
                 Optional<GroupEntity> optionalGroup = groupRepository.findById(groupId);
                 Optional<AlbumEntity> optionalAlbum = albumRepository.findById(albumId);
                 if ((optionalGroup.isPresent()) && (optionalAlbum.isPresent())) {
-                    TrackEntity track = trackRepository.save(
-                            new TrackEntity(trackRq.getName(), Integer.parseInt(trackRq.getDuration())));
-                    optionalAlbum.get().getTrackEntityList().add(track);
+                    optionalAlbum.get().addTrack(new TrackEntity(trackRq.getName(), Integer.parseInt(trackRq.getDuration())));
                     albumRepository.save(optionalAlbum.get());
                     return String.format("redirect:/group/%d/album/%d", groupId, albumId);
                 } else {
@@ -203,9 +185,8 @@ public class AppController {
         Optional<GroupEntity> optionalGroup = groupRepository.findById(groupId);
         Optional<AlbumEntity> optionalAlbum = albumRepository.findById(albumId);
         if ((optionalGroup.isPresent()) && (optionalAlbum.isPresent())) {
-            optionalGroup.get().getAlbumEntityList().remove(optionalAlbum.get());
+            optionalGroup.get().removeAlbum(optionalAlbum.get());
             groupRepository.save(optionalGroup.get());
-            albumRepository.delete(optionalAlbum.get());
             return "redirect:/group/" + groupId;
         } else {
             return "error";
@@ -219,9 +200,8 @@ public class AppController {
         Optional<AlbumEntity> optionalAlbum = albumRepository.findById(albumId);
         Optional<TrackEntity> optionalTrack = trackRepository.findById(trackId);
         if ((optionalGroup.isPresent()) && (optionalAlbum.isPresent()) && (optionalTrack.isPresent())) {
-            optionalAlbum.get().getTrackEntityList().remove(optionalTrack.get());
+            optionalAlbum.get().removeTrack(optionalTrack.get());
             albumRepository.save(optionalAlbum.get());
-            trackRepository.delete(optionalTrack.get());
             return "redirect:/group/" + groupId + "/album/" + albumId;
         } else {
             return "error";

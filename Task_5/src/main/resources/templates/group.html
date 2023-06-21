@@ -17,13 +17,13 @@
             </header>
 
             <main class="leaderboard__profiles">
-                <div class="empty_list" th:if="${#lists.isEmpty(group.albumEntityList)}">
+                <div class="empty_list" th:if="${#lists.isEmpty(group.albumEntitySet)}">
                     Список пуст
                 </div>
-                <article class="leaderboard__profile" th:each="album: ${group.albumEntityList}">
+                <article class="leaderboard__profile" th:each="album: ${group.albumEntitySet}">
                     <img th:src="@{/images/music_album.png}" th:alt="${album.name}" class="leaderboard__picture">
                     <span class="leaderboard__name" th:text="${album.name}" th:onclick="location.href='/group/[[${group.id}]]/album/[[${album.id}]]';"></span>
-                    <span class="leaderboard__value"><span>треки: </span><b class="leaderboard__value" th:text="${#lists.size(album.trackEntityList)}"></b></span>
+                    <span class="leaderboard__value"><span>треки: </span><b class="leaderboard__value" th:text="${#lists.size(album.trackEntitySet)}"></b></span>
                     <div class="delete_container">
                         <form th:action="@{/group/{groupId}/album/{albumId}/delete(groupId=${group.id}, albumId=${album.id})}" method="get">
                             <button class="delete_button">

@@ -36,13 +36,13 @@ public class CatalogService {
     }
 
     private GroupEntity addAlbumInGroup(GroupEntity group, AlbumEntity album) {
-        if(group.getAlbumEntityList().stream().anyMatch(item -> item.getId() == album.getId())) {
+        if(group.getAlbumEntitySet().stream().anyMatch(item -> item.getId() == album.getId())) {
             throw new IllegalArgumentException(String.format(
                     "У группы (id = %d) уже существует альбом(id = %d)", group.getId(), album.getId()));
         } else {
             HashSet<Long> set = new HashSet<>();
-            if(album.getTrackEntityList().stream().mapToLong(TrackEntity::getId).allMatch(set::add)) {
-                group.getAlbumEntityList().add(album);
+            if(album.getTrackEntitySet().stream().mapToLong(TrackEntity::getId).allMatch(set::add)) {
+                group.getAlbumEntitySet().add(album);
                 return group;
             } else {
                 throw new IllegalArgumentException("Не все треки в альбоме имеют различные id");
@@ -73,15 +73,15 @@ public class CatalogService {
     public GroupEntity addTrack(long groupId, long albumId, TrackEntity track) {
         Optional<GroupEntity> optionalGroup = groupEntityList.stream().filter(item -> item.getId() == groupId).findAny();
         if(optionalGroup.isPresent()) {
-            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntityList().
+            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntitySet().
                     stream().filter(item -> item.getId() == albumId).findAny();
             if (optionalAlbum.isPresent()) {
-                if(optionalAlbum.get().getTrackEntityList().
+                if(optionalAlbum.get().getTrackEntitySet().
                         stream().anyMatch(item -> item.getId() == track.getId())) {
                     throw new IllegalArgumentException(String.format(
                             "У группы (id = %d) и альбома(id = %d) уже существует трек(id = %d)", groupId, albumId, track.getId()));
                 } else {
-                    optionalAlbum.get().getTrackEntityList().add(track);
+                    optionalAlbum.get().getTrackEntitySet().add(track);
                     return optionalGroup.get();
                 }
             } else {
@@ -119,7 +119,7 @@ public class CatalogService {
     public List<AlbumEntity> getAlbumListById(long groupId) {
         Optional<GroupEntity> optionalGroup = groupEntityList.stream().filter(item -> item.getId() == groupId).findAny();
         if (optionalGroup.isPresent()) {
-            return optionalGroup.get().getAlbumEntityList();
+            return optionalGroup.get().getAlbumEntitySet().stream().toList();
         } else {
             throw new IllegalArgumentException(String.format("Группы (id = %d) не существует", groupId));
         }
@@ -133,7 +133,7 @@ public class CatalogService {
     public AlbumEntity getAlbumById(long groupId, long albumId) {
         Optional<GroupEntity> optionalGroup = groupEntityList.stream().filter(item -> item.getId() == groupId).findAny();
         if (optionalGroup.isPresent()) {
-            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntityList().
+            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntitySet().
                     stream().filter(item -> item.getId() == albumId).findAny();
             if (optionalAlbum.isPresent()) {
                 return optionalAlbum.get();
@@ -153,10 +153,10 @@ public class CatalogService {
     public List<TrackEntity> getTrackListById(long groupId, long albumId) {
         Optional<GroupEntity> optionalGroup = groupEntityList.stream().filter(item -> item.getId() == groupId).findAny();
         if (optionalGroup.isPresent()) {
-            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntityList().
+            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntitySet().
                     stream().filter(item -> item.getId() == albumId).findAny();
             if (optionalAlbum.isPresent()) {
-                return optionalAlbum.get().getTrackEntityList();
+                return optionalAlbum.get().getTrackEntitySet().stream().toList();
             } else {
                 throw new IllegalArgumentException(String.format("У группы (id = %d) не существует альбома(id = %d)", groupId, albumId));
             }
@@ -174,10 +174,10 @@ public class CatalogService {
     public TrackEntity getTrackById(long groupId, long albumId, long trackId) {
         Optional<GroupEntity> optionalGroup = groupEntityList.stream().filter(item -> item.getId() == groupId).findAny();
         if (optionalGroup.isPresent()) {
-            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntityList().
+            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntitySet().
                     stream().filter(item -> item.getId() == albumId).findAny();
             if (optionalAlbum.isPresent()) {
-                Optional<TrackEntity> optionalTrack = optionalAlbum.get().getTrackEntityList().
+                Optional<TrackEntity> optionalTrack = optionalAlbum.get().getTrackEntitySet().
                         stream().filter(item -> item.getId() == trackId).findAny();
                 if (optionalTrack.isPresent()) {
                     return optionalTrack.get();
@@ -209,7 +209,7 @@ public class CatalogService {
      * @param groupId - id музыкальной группы
      */
     public long getNextAlbumId(long groupId) throws IllegalArgumentException{
-        return getGroupById(groupId).getAlbumEntityList().stream().mapToLong(AlbumEntity::getId).max().getAsLong() + 1;
+        return getGroupById(groupId).getAlbumEntitySet().stream().mapToLong(AlbumEntity::getId).max().getAsLong() + 1;
     }
 
     /**
@@ -218,7 +218,7 @@ public class CatalogService {
      * @param albumId - id альбома
      */
     public long getNextTrackId(long groupId, long albumId) throws IllegalArgumentException{
-        return getAlbumById(groupId, albumId).getTrackEntityList().stream().mapToLong(TrackEntity::getId).max().getAsLong() + 1;
+        return getAlbumById(groupId, albumId).getTrackEntitySet().stream().mapToLong(TrackEntity::getId).max().getAsLong() + 1;
     }
 
     /**
@@ -242,10 +242,10 @@ public class CatalogService {
     public boolean deleteAlbumById(long groupId, long albumId) {
         Optional<GroupEntity> optionalGroup = groupEntityList.stream().filter(item -> item.getId() == groupId).findAny();
         if (optionalGroup.isPresent()) {
-            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntityList().stream().filter(
+            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntitySet().stream().filter(
                     item -> item.getId() == albumId).findAny();
             if (optionalAlbum.isPresent()) {
-                return optionalGroup.get().getAlbumEntityList().remove(optionalAlbum.get());
+                return optionalGroup.get().getAlbumEntitySet().remove(optionalAlbum.get());
             } else {
                 throw new IllegalArgumentException(String.format("Группы (id = %d) не существует", groupId));
             }
@@ -264,13 +264,13 @@ public class CatalogService {
     public boolean deleteTrackById(long groupId, long albumId, long trackId) {
         Optional<GroupEntity> optionalGroup = groupEntityList.stream().filter(item -> item.getId() == groupId).findAny();
         if (optionalGroup.isPresent()) {
-            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntityList().
+            Optional<AlbumEntity> optionalAlbum = optionalGroup.get().getAlbumEntitySet().
                     stream().filter(item -> item.getId() == albumId).findAny();
             if (optionalAlbum.isPresent()) {
-                Optional<TrackEntity> optionalTrack = optionalAlbum.get().getTrackEntityList().
+                Optional<TrackEntity> optionalTrack = optionalAlbum.get().getTrackEntitySet().
                         stream().filter(item -> item.getId() == trackId).findAny();
                 if (optionalTrack.isPresent()) {
-                    return optionalAlbum.get().getTrackEntityList().remove(optionalTrack.get());
+                    return optionalAlbum.get().getTrackEntitySet().remove(optionalTrack.get());
                 } else {
                     throw new IllegalArgumentException(String.format(
                             "У группы (id = %d) и альбома(id = %d) не существует трека(id = %d)", groupId, albumId, trackId));

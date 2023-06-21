@@ -5,7 +5,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class AlbumEntity {
@@ -21,22 +23,33 @@ public class AlbumEntity {
     private int releaseYear;
 
     @NotNull
-    @OneToMany
-    private List<TrackEntity> trackEntityList = new ArrayList<>();
+    @OneToMany(mappedBy = "album", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<TrackEntity> trackEntitySet = new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private GroupEntity group;
+
+    public GroupEntity getGroup() {
+        return group;
+    }
+
+    public void setGroup(GroupEntity group) {
+        this.group = group;
+    }
 
     public AlbumEntity() {}
 
-    public AlbumEntity(long id, String name, int releaseYear, List<TrackEntity> trackEntityList) {
+    public AlbumEntity(long id, String name, int releaseYear, Set<TrackEntity> trackEntitySet) {
         this.id = id;
         this.name = name;
         this.releaseYear = releaseYear;
-        this.trackEntityList = trackEntityList;
+        this.trackEntitySet = trackEntitySet;
     }
 
-    public AlbumEntity(String name, int releaseYear, List<TrackEntity> trackEntityList) {
+    public AlbumEntity(String name, int releaseYear, Set<TrackEntity> trackEntitySet) {
         this.name = name;
         this.releaseYear = releaseYear;
-        this.trackEntityList = trackEntityList;
+        this.trackEntitySet = trackEntitySet;
     }
 
     public long getId() {
@@ -51,8 +64,8 @@ public class AlbumEntity {
         return releaseYear;
     }
 
-    public List<TrackEntity> getTrackEntityList() {
-        return trackEntityList;
+    public Set<TrackEntity> getTrackEntitySet() {
+        return trackEntitySet;
     }
 
     public void setId(long id) {
@@ -67,7 +80,17 @@ public class AlbumEntity {
         this.releaseYear = releaseYear;
     }
 
-    public void setTrackEntityList(List<TrackEntity> trackEntityList) {
-        this.trackEntityList = trackEntityList;
+    public void addTrack(TrackEntity track) {
+        trackEntitySet.add(track);
+        track.setAlbum(this);
+    }
+
+    public void removeTrack(TrackEntity track) {
+        trackEntitySet.remove(track);
+        track.setAlbum(null);
+    }
+
+    public void setTrackEntitySet(Set<TrackEntity> trackEntitySet) {
+        this.trackEntitySet = trackEntitySet;
     }
 }

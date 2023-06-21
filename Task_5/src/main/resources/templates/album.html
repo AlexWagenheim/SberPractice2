@@ -17,10 +17,10 @@
             </header>
 
             <main class="leaderboard__profiles">
-                <div class="empty_list" th:if="${#lists.isEmpty(album.trackEntityList)}">
+                <div class="empty_list" th:if="${#lists.isEmpty(album.trackEntitySet)}">
                     Список пуст
                 </div>
-                <article class="leaderboard__profile" th:each="track: ${album.trackEntityList}">
+                <article class="leaderboard__profile" th:each="track: ${album.trackEntitySet}">
                     <img th:src="@{/images/music_track.png}" th:alt="${track.name}" class="leaderboard__picture">
                     <span class="leaderboard__name" th:text="${track.name}"></span>
                     <span class="leaderboard__value"><b class="leaderboard__value" th:text="${track.duration/60} + ':' + ${track.duration%60}"></b></span>

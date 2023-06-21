@@ -19,6 +19,17 @@ public class TrackEntity {
     @Min(value = 1, message = "Длительность трека не может быть меньше или равна нулю")
     private long duration;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private AlbumEntity album;
+
+    public AlbumEntity getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(AlbumEntity album) {
+        this.album = album;
+    }
+
     public TrackEntity() {}
 
     public TrackEntity(long id, String name, long duration) {
@@ -55,4 +66,5 @@ public class TrackEntity {
     public void setDuration(long duration) {
         this.duration = duration;
     }
+
 }
