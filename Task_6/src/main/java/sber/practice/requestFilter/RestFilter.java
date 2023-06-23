@@ -61,12 +61,13 @@ public class RestFilter implements Filter {
             }
         }
 
+        filterChain.doFilter(servletRequest, servletResponse);
+
         logger.info("Информация об ответе:");
         logger.info(String.format("Контент: %s", servletResponse.getContentType()));
         logger.info(String.format("Кодировка: %s", servletResponse.getCharacterEncoding()));
         logger.info(String.format("Locale: %s", servletResponse.getLocale()));
 
-        filterChain.doFilter(servletRequest, servletResponse);
         logger.info(String.format("Запрос обработан. Примерное время выполнения: %d ms", System.currentTimeMillis() - time));
     }
 
