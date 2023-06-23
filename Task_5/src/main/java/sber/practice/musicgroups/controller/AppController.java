@@ -1,6 +1,8 @@
 package sber.practice.musicgroups.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,13 +79,13 @@ public class AppController {
         return "error";
     }
 
-    @RequestMapping(value = "/group/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/group/add", method = RequestMethod.GET)
     public String getCreateGroupPage(Model model) {
         model.addAttribute("group", new GroupRq());
         return "createEntityPage/createGroup";
     }
 
-    @RequestMapping(value = "/group/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/group/add", method = RequestMethod.POST)
     public String createGroup(@ModelAttribute("group") @Valid GroupRq groupRq, Errors errors, Model model) {
         try {
             if (errors.hasErrors()) {
@@ -98,7 +100,7 @@ public class AppController {
         }
     }
 
-    @RequestMapping(value = "/group/{groupId}/album/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/group/{groupId}/album/add", method = RequestMethod.GET)
     public String getCreateAlbumPage(@PathVariable("groupId") long groupId, Model model) {
         Optional<GroupEntity> optionalGroup = groupRepository.findById(groupId);
         if (optionalGroup.isPresent()) {
@@ -110,7 +112,7 @@ public class AppController {
         }
     }
 
-    @RequestMapping(value = "/group/{groupId}/album/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/group/{groupId}/album/add", method = RequestMethod.POST)
     public String createAlbum(@PathVariable("groupId") long groupId,
                               @ModelAttribute("album") @Valid AlbumRq albumRq, Errors errors, Model model) {
         try {
@@ -132,7 +134,7 @@ public class AppController {
         }
     }
 
-    @RequestMapping(value = "/group/{groupId}/album/{albumId}/track/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/group/{groupId}/album/{albumId}/track/add", method = RequestMethod.GET)
     public String getCreateTrackPage(@PathVariable("groupId") long groupId, @PathVariable("albumId") long albumId, Model model) {
         Optional<GroupEntity> optionalGroup = groupRepository.findById(groupId);
         Optional<AlbumEntity> optionalAlbum = albumRepository.findById(albumId);
@@ -146,7 +148,7 @@ public class AppController {
         }
     }
 
-    @RequestMapping(value = "/group/{groupId}/album/{albumId}/track/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/group/{groupId}/album/{albumId}/track/add", method = RequestMethod.POST)
     public String createTrack(@PathVariable("groupId") long groupId, @PathVariable("albumId") long albumId,
                               @ModelAttribute("track") @Valid TrackRq trackRq, Errors errors, Model model) {
         try {
@@ -168,7 +170,7 @@ public class AppController {
         }
     }
 
-    @RequestMapping(value = "/group/{groupId}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/group/{groupId}/delete", method = RequestMethod.GET)
     public String deleteGroup(@PathVariable("groupId") long groupId, Model model) {
         Optional<GroupEntity> optionalGroup = groupRepository.findById(groupId);
         if (optionalGroup.isPresent()) {
@@ -180,7 +182,7 @@ public class AppController {
 
     }
 
-    @RequestMapping(value = "/group/{groupId}/album/{albumId}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/group/{groupId}/album/{albumId}/delete", method = RequestMethod.GET)
     public String deleteAlbum(@PathVariable("groupId") long groupId, @PathVariable("albumId") long albumId, Model model) {
         Optional<GroupEntity> optionalGroup = groupRepository.findById(groupId);
         Optional<AlbumEntity> optionalAlbum = albumRepository.findById(albumId);
@@ -193,7 +195,7 @@ public class AppController {
         }
     }
 
-    @RequestMapping(value = "/group/{groupId}/album/{albumId}/track/{trackId}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "/admin/group/{groupId}/album/{albumId}/track/{trackId}/delete", method = RequestMethod.GET)
     public String deleteTrack(@PathVariable("groupId") long groupId, @PathVariable("albumId") long albumId,
                               @PathVariable("trackId") long trackId, Model model) {
         Optional<GroupEntity> optionalGroup = groupRepository.findById(groupId);
@@ -206,5 +208,10 @@ public class AppController {
         } else {
             return "error";
         }
+    }
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(Model model) {
+        return "login";
     }
 }

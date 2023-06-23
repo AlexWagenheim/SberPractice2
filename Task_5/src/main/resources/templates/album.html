@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title th:text="${album.name}"></title>
@@ -14,6 +15,14 @@
             <header>
                 <img class="back_button" th:src="@{/images/back_white.png}" alt="Back" th:onclick="location.href='/group/[[${groupId}]]'">
                 <img th:src="@{/images/music_album_white.png}" alt="Music" class="leaderboard__icon"><h1 class="leaderboard__title"><span class="leaderboard__title--top" th:text="${album.name}"></span><span class="leaderboard__title--bottom" th:text="${album.releaseYear}"></span></h1>
+                <div sec:authorize="!isAuthenticated()">
+                    <img class="enter_button" th:src="@{/images/enter_white.png}" alt="User" th:onclick="location.href='/login'">
+                </div>
+                <div sec:authorize="isAuthenticated()" class="user_bar">
+                    <form th:action="@{/logout}" method="post">
+                        <input type="image" th:src="@{/images/logout_white.png}"/>
+                    </form>
+                </div>
             </header>
 
             <main class="leaderboard__profiles">
@@ -24,8 +33,8 @@
                     <img th:src="@{/images/music_track.png}" th:alt="${track.name}" class="leaderboard__picture">
                     <span class="leaderboard__name" th:text="${track.name}"></span>
                     <span class="leaderboard__value"><b class="leaderboard__value" th:text="${track.duration/60} + ':' + ${track.duration%60}"></b></span>
-                    <div class="delete_container">
-                        <form th:action="@{/group/{groupId}/album/{albumId}/track/{trackId}/delete(groupId=${groupId}, albumId=${albumId}, trackId=${track.id})}" method="get">
+                    <div class="delete_container" sec:authorize="isAuthenticated()">
+                        <form th:action="@{/admin/group/{groupId}/album/{albumId}/track/{trackId}/delete(groupId=${groupId}, albumId=${albumId}, trackId=${track.id})}" method="get">
                             <button class="delete_button">
                                 <div class="delete_button__line"></div>
                                 <div class="delete_button__line"></div>
@@ -34,8 +43,8 @@
                         </form>
                     </div>
                 </article>
-                <div class="container">
-                    <button class="button" th:onclick="location.href='/group/[[${groupId}]]/album/[[${album.id}]]/track/add';">
+                <div class="container" sec:authorize="isAuthenticated()">
+                    <button class="button" th:onclick="location.href='/admin/group/[[${groupId}]]/album/[[${album.id}]]/track/add';">
                         <div class="button__line"></div>
                         <div class="button__line"></div>
                         <span class="button__text">Добавить</span>

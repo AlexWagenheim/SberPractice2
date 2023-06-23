@@ -3,6 +3,7 @@
     text-align: center;
 }
 .back_button {
+    position: absolute;
     width: 50px;
     margin-left: 10px;
     margin-top: 10px;
@@ -114,4 +115,26 @@ body {
 }
 .leaderboard {
   box-shadow: 0 0 40px -10px rgba(0, 0, 0, 0.4);
+}
+.enter_button {
+    width: 40px;
+    margin-left: 940px;
+    margin-top: 20px;
+}
+.user_bar {
+}
+.user_bar input {
+    width: 40px;
+    margin-top: 20px;
+    margin-left: 950px;
+}
+.user_info {
+    position: absolute;
+    margin-left: 200px;
+    z-index: 9999;
+}
+.login_form_container {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
 }

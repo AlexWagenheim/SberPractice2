@@ -15,7 +15,10 @@
             <img th:src="@{/images/music_band_white.png}" alt="Music" class="leaderboard__icon"><h1 class="leaderboard__title"><span class="leaderboard__title--top">Добавить группу</span><span class="leaderboard__title--bottom"></span></h1>
         </header>
         <main class="leaderboard__profiles">
-            <form action="/group/add" method="post" th:object="${group}">
+            <form action="/admin/group/add" method="post" th:object="${group}">
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}" />
                 <table>
                     <tbody>
                         <tr>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход в систему</title>
+    <link rel="stylesheet" th:href="@{/styles/style.css}" type="text/css"/>
+    <link rel="stylesheet" th:href="@{/styles/createFormStyle.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/fineButton.css}"/>
+</head>
+<body>
+    <article class="leaderboard">
+        <header>
+            <img class="back_button" style="width: 40px" th:src="@{/images/home_white.png}" alt="Home" th:onclick="location.href='/group'">
+            <img th:src="@{/images/music_white.png}" alt="Music" class="leaderboard__icon"><h1 class="leaderboard__title"><span class="leaderboard__title--top">Вход в систему</span><span class="leaderboard__title--bottom">REST Music</span></h1>
+        </header>
+        <main class="leaderboard__profiles">
+            <div class="login_form_container">
+                <div th:if="${param.error}" style="color: red; margin-bottom: 20px;">
+                    Неверная пара логин/пароль!
+                </div>
+                <div th:if="${param.logout}" style="margin-bottom: 20px;">
+                    Вы успешно вышли из системы.
+                </div>
+                <div>
+                    <form th:action="@{/login}" method="post">
+                        <div class="input-field">
+                            <input type="text" name="username" id="name">
+                            <label for="name">Имя пользователя</label>
+                        </div>
+                        <div class="input-field">
+                            <input type="password" name="password" id="password">
+                            <label for="password">Пароль</label>
+                        </div>
+<!--                        <div class="input-field"><label> User Name : <input type="text" name="username"/> </label></div>-->
+<!--                        <div class="input-field"><label> Password: <input type="password" name="password"/> </label></div>-->
+                        <div class="container">
+                            <button class="button" type="submit">
+                                <div class="button__line"></div>
+                                <div class="button__line"></div>
+                                <span class="button__text">Войти</span>
+                            </button>
+                        </div>
+<!--                        <div><input type="submit" value="Sign In"/></div>-->
+                    </form>
+                </div>
+            </div>
+        </main>
+    </article>
+</div>
+</body>
+</html>
