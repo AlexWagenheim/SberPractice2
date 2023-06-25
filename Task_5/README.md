@@ -18,5 +18,8 @@ GET:
    - `/group/{groupId}/album/{albumId}/track` - получить список всех треков в альбоме с __id__ = `albumId` у группы с __id__ = `groupId`
    - `/group/{groupId}/album/{albumId}/track/{trackId}` - получить информацию о треке с __id__ = `trackId` в альбоме с __id__ = `albumId` у группы с __id__ = `groupId`
 
+## Примечание
+Имеет UI, реализованные с помощью шаблонов Thymeleaf
 ***
+
 A. Wagenheim
